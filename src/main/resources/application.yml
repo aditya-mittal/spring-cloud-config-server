@@ -4,9 +4,11 @@ server:
 management:
   endpoints:
     web:
-      base-path: "/admin"
       exposure:
-        include: "*"
+        include:
+          - health
+          - info
+          - bus-refresh
   endpoint:
     env:
       post:
@@ -15,30 +17,22 @@ logging:
   level:
     com.netflix.discovery: 'OFF'
     org.springframework.cloud: 'DEBUG'
-    
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /admin/info
-    healthCheckUrlPath: /admin/health
 
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/spring-cloud-samples/config-repo
+          uri: https://github.com/aditya-mittal/config-repo
           basedir: target/config
+    bus:
+      enabled: true
 
 ---
 spring:
   profiles: cloud
-eureka:
-  password: password
-  instance:
-    hostname: ${vcap.application.uris[0]}
-    nonSecurePort: 80
-  client:
-    serviceUrl:
-      defaultZone: ${vcap.services.${PREFIX:}eureka.credentials.uri:http://user:${eureka.password:}@${PREFIX:}eureka.${application.domain:cfapps.io}}/eureka/
-
