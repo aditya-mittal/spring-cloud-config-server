@@ -1,5 +1,33 @@
-rabbitmq:
-  image: rabbitmq:3-management
-  ports:
-    - "5672:5672"
-    - "15672:15672"
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  configserver:
+    build: .
+    links:
+      - "rabbitmq"
+    ports:
+      - "8888:8888"
+
+  configclient1:
+    build: ../customers-stores/rest-microservices-store
+    links:
+      - "rabbitmq"
+      - "configserver"
+    ports:
+      - "8081:8081"
+
+  configclient2:
+    build: ../customers-stores/rest-microservices-store
+    links:
+      - "rabbitmq"
+      - "configserver"
+    ports:
+      - "8082:8081"
+
+
+

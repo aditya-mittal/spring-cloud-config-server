@@ -15,12 +15,11 @@ management:
         enabled: true
 logging:
   level:
-    com.netflix.discovery: 'OFF'
     org.springframework.cloud: 'DEBUG'
 
 spring:
   rabbitmq:
-    host: localhost
+    host: rabbitmq
     port: 5672
     username: guest
     password: guest
@@ -30,9 +29,6 @@ spring:
         git:
           uri: https://github.com/aditya-mittal/config-repo
           basedir: target/config
+          default-label: main
     bus:
       enabled: true
-
----
-spring:
-  profiles: cloud
