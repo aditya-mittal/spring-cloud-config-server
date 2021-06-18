@@ -18,6 +18,11 @@ logging:
     org.springframework.cloud: 'DEBUG'
 
 spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
       server:
@@ -26,4 +31,4 @@ spring:
           basedir: target/config
           default-label: main
     bus:
-      enabled: false
+      enabled: true

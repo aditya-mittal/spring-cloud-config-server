@@ -1,33 +1,30 @@
 version: "3.9"
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   configserver:
     build: .
+    links:
+      - "rabbitmq"
     ports:
       - "8888:8888"
-    healthcheck:
-      test: "curl --fail --silent localhost:8888/actuator/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
 
   configclient1:
     build: ../customers-stores/rest-microservices-store
-    depends_on:
-      configserver:
-        condition: service_healthy
     links:
+      - "rabbitmq"
       - "configserver"
     ports:
       - "8081:8081"
 
   configclient2:
     build: ../customers-stores/rest-microservices-store
-    depends_on:
-      configserver:
-        condition: service_healthy
     links:
+      - "rabbitmq"
       - "configserver"
     ports:
       - "8082:8081"
