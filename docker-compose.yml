@@ -14,7 +14,7 @@ services:
       - "8888:8888"
 
   configclient1:
-    build: ../customers-stores/rest-microservices-store
+    build: ../spring-cloud-config-client
     links:
       - "rabbitmq"
       - "configserver"
@@ -22,7 +22,7 @@ services:
       - "8081:8081"
 
   configclient2:
-    build: ../customers-stores/rest-microservices-store
+    build: ../spring-cloud-config-client
     links:
       - "rabbitmq"
       - "configserver"
